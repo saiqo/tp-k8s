@@ -1,0 +1,41 @@
+ # ansible-playbook containerd.yaml
+
+- name: install containerd
+  hosts: all
+  become: yes
+  vars:
+    version: "1.24"
+  tasks:
+
+    #- name: diseable se linux
+      #shell: setenforce 0;sed -i 's/^SELINUX=enforcing$/SELINUX=permissive/' /etc/selinux/config
+
+    - name : ajoute libcontainers:stable.repo
+      shell: dnf config-manager --add-repo https://download.opensuse.org/repositories/devel:kubic:libcontainers:stable/CentOS_8/devel:kubic:libcontainers:stable.repo
+
+    - name : ajoute devel:kubic:libcontainers:stable:cri-o:1.22.repo
+      shell: dnf config-manager --add-repo https://download.opensuse.org/repositories/devel:kubic:libcontainers:stable:cri-o:{{version}}/CentOS_8/devel:kubic:libcontainers:stable:cri-o:{{version}}.repo
+
+    - name: maj cache
+      shell: dnf makecache
+
+    - name: Install conntrack-tools
+      ansible.builtin.dnf:
+        name: conntrack-tools
+        state: present
+
+    - name: Install the latest version of cri-o
+      ansible.builtin.dnf:
+        name: cri-o 
+        state: present
+
+    - name: Install the latest version of cri-tools
+      ansible.builtin.dnf:
+        name: cri-tools
+        state: present
+
+    - name: start crio
+      ansible.builtin.systemd_service:
+        name: crio
+        state: started
+        enabled: true
