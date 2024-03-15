@@ -68,7 +68,6 @@
         register: is_istio
         changed_when: false
 
-
       - block:
 
         - name: Install make pour istio
@@ -76,11 +75,11 @@
             name: make
 
         - name: Install istio
-          shell: curl -L https://istio.io/downloadIstio | ISTIO_VERSION=1.18.0 TARGET_ARCH=x86_64 sh -
+          shell: curl -L https://istio.io/downloadIstio | ISTIO_VERSION=1.21.0 TARGET_ARCH=x86_64 sh -
 
         - name: Creation des certificats pour istio
           shell: |
-              cd istio-1.18.0
+              cd istio-1.21.0
               mkdir -p certs
               cd certs
               make -f ../tools/certs/Makefile.selfsigned.mk root-ca
