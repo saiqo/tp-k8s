@@ -42,7 +42,7 @@
           shell: 'kubectl get configmap kube-proxy -n kube-system -o yaml|sed -e "s/strictARP: false/strictARP: true/" |kubectl apply -f - -n kube-system'
 
         - name:  config metallb-native
-          shell: kubectl apply -f https://raw.githubusercontent.com/metallb/metallb/v0.13.6/config/manifests/metallb-native.yaml
+          shell: kubectl apply -f https://raw.githubusercontent.com/metallb/metallb/v0.14.8/config/manifests/metallb-native.yaml
 
         - name : metallb  attends que les nodes soit pret
           command: kubectl wait --for=condition=Ready nodes --all --timeout=1200s
@@ -50,10 +50,19 @@
         - name : metallb attends que les podes soit pret
           command: kubectl wait --for=condition=Ready pods --all --all-namespaces --timeout=1200s
 
+        # - name: definit un pool par default pour metallb
+        #   kubernetes.core.k8s:
+        #     state: present
+        #     definition: "{{ lookup('template', 'files/metallb-pool.yaml') | from_yaml }}"
+
         - name: definit un pool par default pour metallb
-          kubernetes.core.k8s:
-            state: present
-            definition: "{{ lookup('template', 'files/metallb-pool.yaml') | from_yaml }}"
+          ansible.builtin.template:
+            src: files/metallb-pool.j2
+            dest: /tmp/metallb-pool.yaml
+
+
+        - name: definit un pool par default pour metallb
+          command: kubectl apply -f /tmp/metallb-pool.yaml
 
         when: is_metallb.stdout==''
 

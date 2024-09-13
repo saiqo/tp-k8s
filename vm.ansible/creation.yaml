@@ -109,6 +109,7 @@
             --memory 4096
             --vcpus 2
             --boot hd,menu=on
+            --import
             --disk path={{cloud_init_cdrom}},device=cdrom
             --disk path={{vm_disk}},device=disk
             --graphics none
@@ -134,9 +135,12 @@
       - name: Enleve le cdrom de clound init
         command: virsh change-media  {{ vm_name }} sda --eject --live --config
 
-      - name: install python 3 pour Rocky 8.
-        shell: ssh -o StrictHostKeyChecking=no root@{{inventory_hostname}} dnf install -y python3
 
+      - name: La version python doit etre le meme hote/guest install python 3.12 pour
+        shell: ssh -o StrictHostKeyChecking=no root@{{inventory_hostname}} dnf install -y python3.12
+
+      - name: alternative python 3.12
+        shell: ssh -o StrictHostKeyChecking=no root@{{inventory_hostname}} alternatives --install /usr/bin/python python /usr/bin/python3.12 1
 
       - name:  remove user_data
         ansible.builtin.file:

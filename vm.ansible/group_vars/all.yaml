@@ -6,6 +6,9 @@ vm_path: "./VM"
 rocky_disk: "Rocky-9-GenericCloud-Base-9.2-20230513.0.x86_64.qcow2"
 rocky_download_url: "https://dl.rockylinux.org/vault/rocky/9.2/images/x86_64/Rocky-9-GenericCloud-Base-9.2-20230513.0.x86_64.qcow2"
 
+# rocky_disk: "Rocky-9-GenericCloud-Base-9.4-20240609.1.x86_64.qcow2"
+# rocky_download_url: "https://dl.rockylinux.org/pub/rocky/9/images/x86_64/Rocky-9-GenericCloud-Base-9.4-20240609.1.x86_64.qcow2"
+
 reseau: "10.54.56"
 gateway: '{{reseau}}.1'
 nameservers: "8.8.8.8, 159.31.10.2"

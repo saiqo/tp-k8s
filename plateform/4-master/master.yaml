@@ -9,20 +9,20 @@
 
 # pour utiliser le modules kubernetes d'ansible, doit le charger sur le master:
 
-      - name: install packages python3-pip pour charger le modules kubernetes
-        ansible.builtin.dnf:
-          name: python3-pip
-          state: present
-
-      - name: charge le modules kubernetes
-        pip:
-          name: kubernetes
-          extra_args: --upgrade
-
-      - name: obliger d'avoir la meme version sur master/local d oauthlib
-        pip:
-          name: oauthlib
-          extra_args: --upgrade
+      # - name: install packages python3-pip pour charger le modules kubernetes
+      #   ansible.builtin.dnf:
+      #     name: python3-pip
+      #     state: present
+      #
+      # - name: charge le modules kubernetes
+      #   pip:
+      #     name: kubernetes
+      #     extra_args: --upgrade
+      #
+      # - name: obliger d'avoir la meme version sur master/local d oauthlib
+      #   pip:
+      #     name: oauthlib
+      #     extra_args: --upgrade
 
       - name: check cluster init
         shell: ss -tulpn | grep LISTEN|grep 6443 || true

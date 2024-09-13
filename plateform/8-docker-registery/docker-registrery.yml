@@ -72,12 +72,19 @@
       shell: "htpasswd -Bbn etudiant etudiant > {{path_docker_registry}}/docker/htpasswd"
       when: htpasswd_file.stdout == ''
 
-- hosts: masters
+- hosts: localhost
   remote_user: root
   vars:
     docker_namespace: "docker-registrery"
     persitence_node: '{{hostvars["10.54.56.101"].name_hosts}}'
+
   tasks:
+
+    - name: charge le modules kubernetes
+      pip:
+        name: kubernetes
+        extra_args: --upgrade
+
     - name: create namespace
       kubernetes.core.k8s:
         state: present
