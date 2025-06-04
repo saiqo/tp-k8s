@@ -163,4 +163,14 @@
         with_items: "{{groups['kvm']}}"
 
 
+- name: remove dns 10.0.2.3
+  hosts: kvm
+  remote_user: root
+  tasks:
+    - name: Supprime dns 10.0.2.3
+      lineinfile:
+        path: /etc/resolv.conf
+        regexp: '^nameserver 10.0.2.3'
+        line: '#nameserver 10.0.2.3'
+
 
