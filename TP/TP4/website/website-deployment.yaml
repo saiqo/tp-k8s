@@ -1,0 +1,23 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: pods-website
+  namespace: development
+spec:
+  replicas: 3
+  selector:
+    matchLabels:
+      app: pods-website
+  template:
+    metadata:
+      labels:
+        app: pods-website
+    spec:
+      containers:
+      - name: pods-website
+        image: 10.54.56.39:5000/website:0.0.3
+        imagePullPolicy: Always
+        ports:
+        - containerPort: 80
+      imagePullSecrets:
+      - name: private-registry-key

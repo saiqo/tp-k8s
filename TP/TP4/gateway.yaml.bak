@@ -1,0 +1,29 @@
+apiVersion: gateway.networking.k8s.io/v1
+kind: Gateway
+metadata:
+  name: prod-web
+  namespace: development
+
+spec:
+  gatewayClassName: istio
+  listeners:
+  - protocol: HTTP
+    port: 80
+    name: prod-web-gw
+    allowedRoutes:
+      namespaces:
+        from: Same
+
+---
+apiVersion: gateway.networking.k8s.io/v1
+kind: HTTPRoute
+metadata:
+  name: route-web-service
+  namespace: development
+spec:
+  parentRefs:
+  - name: prod-web
+  rules:
+  - backendRefs:
+    - name: pods-ms-ip-svc
+      port: 80

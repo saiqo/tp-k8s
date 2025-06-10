@@ -1,0 +1,14 @@
+apiVersion: v1
+kind: Service
+metadata:
+ name: service-loadbalancer
+ namespace: development
+spec:
+ ports:
+ - port: 8000
+   protocol: TCP
+   targetPort: 8000
+   nodePort: 30001
+ selector:
+   app: pods-ms-ip
+ type: LoadBalancer

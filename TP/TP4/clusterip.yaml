@@ -1,0 +1,45 @@
+apiVersion: v1
+kind: Service
+metadata: 
+ name: ms-ip-svc
+ namespace: development
+spec:
+ selector:   
+   app: ms-ip
+ type: ClusterIP
+ ports: 
+ - name: http
+   port: 80
+   targetPort: 8000
+   protocol: TCP
+---
+apiVersion: v1
+kind: Service
+metadata:
+ name: nginx-deployment-svc
+ namespace: development
+spec:
+ selector:
+   app: nginx
+ type: ClusterIP
+ ports:
+ - name: http
+   port: 80
+   targetPort: 80
+   protocol: TCP
+
+---
+apiVersion: v1
+kind: Service
+metadata:
+ name: website-svc
+ namespace: development
+spec:
+ selector:
+   app: pods-website
+ type: ClusterIP
+ ports:
+ - name: http
+   port: 80
+   targetPort: 80
+   protocol: TCP
